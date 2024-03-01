@@ -60,7 +60,9 @@ class PilferageMeter extends WidgetBase
 		if (pct > 1)
 			pct /= 100;
 
-		_alpha = 100
+		if (_alpha < 100)
+			show()
+
 		meter.updateMeterPercent(pct);
 	}
 
@@ -84,6 +86,13 @@ class PilferageMeter extends WidgetBase
 			this._xscale = this._yscale = scale;
 	}
 
+	public function toggleVisibility()
+	{
+		if (_alpha)
+			_alpha = 0
+		else
+			_alpha = 100
+	}
 
 	public function show(dur)
 	{
