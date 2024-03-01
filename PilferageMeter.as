@@ -16,37 +16,12 @@ class PilferageMeter extends WidgetBase
 		super();
 
 		_global.gfxExtensions = true;
+		_visible = false
 	}
 
 	public function onLoad()
 	{
-	}
-
-	private var _tHP = 1000;
-	private var _testID: Number;
-	private function test()
-	{
-		trace("Tick...")
-		switch (_tHP) {
-			case 1000:
-				buildMeter(0, 150, 600, _tHP, 500);
-				break;
-			case 1200:
-				setPct(75);
-				break;
-			case 1400:
-				setPct(50);
-				break;
-			case 1600:
-				setPct(25);
-				break;
-			case 1800:
-				setPct(0);
-				break;
-			case 2000:
-				clearInterval(_testID);
-				break;
-		}
+		setAlpha(0)
 	}
 
 	/* PAPYRUS */
@@ -88,10 +63,13 @@ class PilferageMeter extends WidgetBase
 
 	public function toggleVisibility()
 	{
-		if (_alpha)
-			_alpha = 0
-		else
-			_alpha = 100
+		if (_alpha || _visible) {
+			_visible = false
+			setAlpha(0)
+		} else {
+			_visible = true
+			setAlpha(100)
+		}
 	}
 
 	public function show(dur)
@@ -99,6 +77,7 @@ class PilferageMeter extends WidgetBase
 		if (dur == undefined)
 			dur = 0.6
 
+		_visible = true
 		TweenLite.to(this, dur, { _alpha: 100, ease: Strong.easeIn });
 	}
 
