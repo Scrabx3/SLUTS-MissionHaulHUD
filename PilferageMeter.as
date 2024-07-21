@@ -22,6 +22,41 @@ class PilferageMeter extends WidgetBase
 	public function onLoad()
 	{
 		setAlpha(0)
+		// _visible = true;
+		// _testID = setInterval(Delegate.create(this, test), 2000);
+	}
+	
+	private var _tHP = 1000;
+	private var _testID: Number;
+	private function test()
+	{
+		trace("Tick... " + this);
+		switch (_tHP) {
+			case 1000:
+				buildMeter(0, 150, 600, _tHP, 500);
+				setArmor(0);
+				setPct(100);
+				break;
+			case 1200:
+				setPct(75);
+				break;
+			case 1400:
+				// setPct(50);
+				setArmor(50);
+				break;
+			case 1600:
+				setPct(20);
+				break;
+			case 1800:
+				setArmor(30);
+				// setPct(0);
+				break;
+			case 2000:
+				trace("done");
+				clearInterval(_testID);
+				break;
+		}
+		_tHP += 200;
 	}
 
 	/* PAPYRUS */
@@ -35,10 +70,21 @@ class PilferageMeter extends WidgetBase
 		if (pct > 1)
 			pct /= 100;
 
-		if (_alpha < 100)
+		if (_alpha < 100 || !_visible)
 			show()
 
 		meter.updateMeterPercent(pct);
+	}
+
+	public function setArmor(pct)
+	{
+		if (pct > 1)
+			pct /= 100;
+
+		if (_alpha < 100 || !_visible)
+			show()
+
+		meter.updateArmorPercent(pct);
 	}
 
 	public function setLocation(xpos_prc: Number, ypos_prc: Number, rot: Number, scale: Number)
